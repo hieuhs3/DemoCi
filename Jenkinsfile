@@ -1,6 +1,6 @@
 ﻿pipeline {
     agent any
-
+ 
     environment {
         REGISTRY_URL = 'docker.io'
         IMAGE_NAME = 'your-username/your-image-name'
