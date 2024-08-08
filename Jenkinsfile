@@ -10,7 +10,7 @@
         stage('Clone Repository') {
             steps {
                 // Thay đổi URL và credentialsId cho phù hợp
-                git url: 'https://github.com/hieuhs3/DemoCi.git', credentialsId: 'github-token'
+                git url: 'https://github.com/hieuhs3/DemoCi.git', credentialsId: 'dckr_pat_bSldBMPRvst5s9P89RoVsiPvLN4'
             }
         }
         stage('Build Docker Image') {
