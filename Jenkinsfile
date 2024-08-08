@@ -12,6 +12,7 @@ pipeline {
             steps {
                 echo 'Cloning repository...'
                 // Clone mã nguồn từ GitHub
+                sudo su
                 git 'https://github.com/hieuhs3/DemoCi.git'
             }
         }
