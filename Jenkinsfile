@@ -12,7 +12,7 @@ pipeline {
             steps {
                 echo 'Cloning repository...'
                 // Clone mã nguồn từ GitHub
-                git 'https://github.com/hieuhs3/DemoCi.git'
+                git clone 'https://github.com/hieuhs3/DemoCi.git'
             }
         }
         stage('Build Docker Image') {
