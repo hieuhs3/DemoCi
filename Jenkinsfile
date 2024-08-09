@@ -1,43 +1,46 @@
 ﻿pipeline {
     agent any
-
     environment {
-        REGISTRY_URL = 'docker.io'
-        IMAGE_NAME = 'your-username/your-image-name'
+        // Thay đổi các biến môi trường dưới đây theo thông tin của bạn
+        DOCKER_REGISTRY = 'docker.io'  // Địa chỉ Docker registry
+        DOCKER_CREDENTIALS_ID = 'docker-hub-credentials'  // ID của Docker Hub credentials trong Jenkins
+        IMAGE_NAME = 'myapp'  // Tên Docker image của bạn
+        IMAGE_TAG = 'latest'  // Thẻ Docker image của bạn
     }
-
     stages {
-        stage('Clone Repository') {
+        stage('Checkout') {
             steps {
-                // Thay đổi URL và credentialsId cho phù hợp
-                git url: 'https://github.com/hieuhs3/DemoCi.git', credentialsId: 'github-token'
+                echo 'Cloning repository...'
+                // Clone mã nguồn từ GitHub
+                git url: 'https://github.com/hieuhs3/DemoCi.git', branch: 'main'
             }
         }
         stage('Build Docker Image') {
             steps {
+                echo 'Building Docker image...'
+                // Xây dựng Docker image từ Dockerfile
                 script {
-                    // Xây dựng image Docker
-                    dockerImage = docker.build("${IMAGE_NAME}")
+                    docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
                 }
             }
         }
         stage('Push Docker Image') {
             steps {
-                script {
-                    // Đẩy image lên Docker Hub
-                    docker.withRegistry('https://' + REGISTRY_URL, 'docker-hub-credentials') {
-                        dockerImage.push('latest')
+                echo 'Pushing Docker image to Docker Hub...'
+                // Đăng nhập vào Docker Hub
+                withDockerRegistry([credentialsId: "${DOCKER_CREDENTIALS_ID}", url: "${DOCKER_REGISTRY}"]) {
+                    // Đẩy Docker image lên Docker Hub
+                    script {
+                        docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push("${IMAGE_TAG}")
                     }
                 }
             }
         }
-        stage('Deploy Docker Container') {
-            steps {
-                script {
-                    // Chạy container Docker
-                    dockerImage.run('-d -p 8080:8080')
-                }
-            }
+    }
+     post {
+        always {
+            echo 'Cleaning up...'
+            cleanWs()
         }
     }
 }
