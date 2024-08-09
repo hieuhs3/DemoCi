@@ -10,7 +10,7 @@ RUN dotnet restore "SocialNetwork/SocialNetwork.csproj"
 COPY . .
 
 # Thay đổi quyền truy cập thư mục build
-RUN mkdir -p /app/build && chmod -R 777 /app/build
+RUN mkdir -p /src/build && chmod -R 777 /src/build
 
 RUN dotnet build "SocialNetwork.csproj" -c Release -o /app/build
 
