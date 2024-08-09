@@ -12,7 +12,7 @@ pipeline {
             steps {
                 echo 'Cloning repository...'
                 // Clone mã nguồn từ GitHub
-                git 'https://github.com/hieuhs3/DemoCi.git'
+                git url: 'https://github.com/hieuhs3/DemoCi.git', branch: 'main'
             }
         }
         stage('Build Docker Image') {
@@ -37,10 +37,9 @@ pipeline {
             }
         }
     }
-    post {
+     post {
         always {
             echo 'Cleaning up...'
-            // Dọn dẹp các tài nguyên hoặc làm các bước sau khi pipeline hoàn tất
             cleanWs()
         }
     }
