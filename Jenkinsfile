@@ -1,4 +1,4 @@
-﻿pipeline {
+pipeline {
     agent any
     environment {
         // Thay đổi các biến môi trường dưới đây theo thông tin của bạn
