@@ -8,10 +8,10 @@ RUN dotnet restore "SocialNetwork/SocialNetwork.csproj"
 
 # Copy everything else and build the project
 COPY . .
-RUN dotnet build "SocialNetwork.csproj" -c Release -o /app/build
+RUN dotnet build "SocialNetwork/SocialNetwork.csproj" -c Release -o /app/build
 
 # Stage 2: Publish the application
-RUN dotnet publish "SocialNetwork.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "SocialNetwork/SocialNetwork.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 # Stage 3: Create the final image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
