@@ -3,8 +3,8 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
 WORKDIR /app
 
 # Copy csproj and restore dependencies
-COPY ["SocialNetwork/SocialNetwork.csproj", "SocialNetwork/"]
-RUN dotnet restore "SocialNetwork/SocialNetwork.csproj"
+COPY ["SocialNetwork.csproj", "SocialNetwork/"]
+RUN dotnet restore "SocialNetwork.csproj"
 
 # Copy everything else and build the project
 COPY . .
