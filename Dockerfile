@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Copy csproj and restore dependencies
 COPY ["SocialNetwork.csproj", "SocialNetwork/"]
-RUN dotnet restore "SocialNetwork.csproj"
+RUN dotnet restore "SocialNetwork/SocialNetwork.csproj"
 
 # Copy everything else and build the project
 COPY . .
