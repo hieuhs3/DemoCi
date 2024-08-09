@@ -8,6 +8,10 @@ RUN dotnet restore "SocialNetwork/SocialNetwork.csproj"
 
 # Copy everything else and build the project
 COPY . .
+
+# Thay đổi quyền truy cập thư mục build
+RUN mkdir -p /app/build && chmod -R 777 /app/build
+
 RUN dotnet build "SocialNetwork.csproj" -c Release -o /app/build
 
 # Stage 2: Publish the application
