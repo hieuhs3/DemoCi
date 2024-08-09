@@ -12,7 +12,7 @@ COPY . .
 # Thay đổi quyền truy cập thư mục build
 RUN mkdir -p /src/build && chmod -R 777 /src/build
 
-RUN dotnet build "SocialNetwork.csproj" -c Release -o /app/build
+RUN dotnet build "SocialNetwork.csproj" -c Release -o /srrc/build
 
 # Stage 2: Publish the application
 RUN dotnet publish "SocialNetwork.csproj" -c Release -o /app/publish /p:UseAppHost=false
