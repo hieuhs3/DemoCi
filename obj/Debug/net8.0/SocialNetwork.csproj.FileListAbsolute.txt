@@ -30,3 +30,4 @@ C:\D\jenkins\SocialNetwork\SocialNetwork\obj\Debug\net8.0\refint\SocialNetwork.d
 C:\D\jenkins\SocialNetwork\SocialNetwork\obj\Debug\net8.0\SocialNetwork.pdb
 C:\D\jenkins\SocialNetwork\SocialNetwork\obj\Debug\net8.0\SocialNetwork.genruntimeconfig.cache
 C:\D\jenkins\SocialNetwork\SocialNetwork\obj\Debug\net8.0\ref\SocialNetwork.dll
+C:\D\jenkins\SocialNetwork\SocialNetwork\obj\Debug\net8.0\SocialNetwork.sourcelink.json
