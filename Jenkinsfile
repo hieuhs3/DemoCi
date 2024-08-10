@@ -30,7 +30,7 @@ pipeline {
                 echo 'Run Docker image...'
                 // Xây dựng Docker image từ Dockerfile
                 script {
-                     docker.image("${IMAGE_NAME}:${IMAGE_TAG}").withRun('-d -p 8084:8080') {
+                     docker.image("${IMAGE_NAME}:${IMAGE_TAG}").withRun('-p 8084:8080') {
                        echo 'Running'
                     }
                 }
