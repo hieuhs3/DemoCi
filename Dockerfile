@@ -13,6 +13,7 @@ COPY ["./SocialNetwork.csproj", "SocialNetwork/"]
 RUN dotnet restore "./SocialNetwork/SocialNetwork.csproj"
 COPY . .
 WORKDIR "/src/SocialNetwork"
+RUN ls -la
 RUN dotnet build "./SocialNetwork.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
