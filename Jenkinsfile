@@ -16,38 +16,27 @@ pipeline {
                 git url: 'https://github.com/hieuhs3/DemoCi.git', branch: 'main'
             }
         }
-        stage('Build and Push Docker Image with Compose') {
+        stage('Build Docker Image') {
             steps {
-                echo 'Building and pushing Docker image using Docker Compose...'
+                echo 'Building Docker image...'
+                // Xây dựng Docker image từ Dockerfile
                 script {
-                    withDockerRegistry([credentialsId: "${DOCKER_CREDENTIALS_ID}", url: "${DOCKER_REGISTRY}"]) {
-                        sh "docker-compose -f ${COMPOSE_FILE} build"
-                        sh "docker-compose -f ${COMPOSE_FILE} push"
+                    docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
+                }
+            }
+        }
+        stage('Push Docker Image') {
+            steps {
+                echo 'Pushing Docker image to Docker Hub...'
+                // Đăng nhập vào Docker Hub
+                withDockerRegistry([credentialsId: "${DOCKER_CREDENTIALS_ID}", url: "${DOCKER_REGISTRY}"]) {
+                    // Đẩy Docker image lên Docker Hub
+                    script {
+                        docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push("${IMAGE_TAG}")
                     }
                 }
             }
         }
-//        stage('Build Docker Image') {
-//     steps {
-//         echo 'Building Docker image...'
-//         // Xây dựng Docker image từ Dockerfile
-//         script {
-//             docker.build("${IMAGE_NAME}:${IMAGE_TAG}")
-//         }
-//     }
-// }
-// stage('Push Docker Image') {
-//     steps {
-//         echo 'Pushing Docker image to Docker Hub...'
-//         // Đăng nhập vào Docker Hub
-//         withDockerRegistry([credentialsId: "${DOCKER_CREDENTIALS_ID}", url: "${DOCKER_REGISTRY}"]) {
-//             // Đẩy Docker image lên Docker Hub
-//             script {
-//                 docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push("${IMAGE_TAG}")
-//             }
-//         }
-//     }
-// }
     }
      post {
         always {
