@@ -1,27 +1,25 @@
-﻿# Stage 1: Build the application
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
-WORKDIR /src
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-# Copy csproj and restore dependencies
-COPY ["SocialNetwork.csproj", "SocialNetwork/"]
-RUN dotnet restore "SocialNetwork/SocialNetwork.csproj"
-
-# Copy everything else and build the project
-COPY . .
-
-# Thay đổi quyền truy cập thư mục build
-RUN mkdir -p /src/build && chmod -R 777 /src/build
-
-RUN dotnet build "SocialNetwork.csproj" -c Release -o /src/build
-
-# Stage 2: Publish the application
-RUN dotnet publish "SocialNetwork.csproj" -c Release -o /src/publish /p:UseAppHost=false
-
-# Stage 3: Create the final image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER app
 WORKDIR /app
-COPY --from=build-env /src/publish .
+EXPOSE 8080
+EXPOSE 8081
 
-# Expose the port and set the entry point
-EXPOSE 80
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["SocialNetwork/SocialNetwork.csproj", "SocialNetwork/"]
+RUN dotnet restore "./SocialNetwork/SocialNetwork.csproj"
+COPY . .
+WORKDIR "/src/SocialNetwork"
+RUN dotnet build "./SocialNetwork.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./SocialNetwork.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "SocialNetwork.dll"]
