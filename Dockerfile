@@ -11,7 +11,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["./SocialNetwork.csproj", "SocialNetwork/"]
 RUN dotnet restore "./SocialNetwork/SocialNetwork.csproj"
-COPY . .
+COPY . ./SocialNetwork
 WORKDIR "/src/SocialNetwork"
 RUN ls -la
 RUN dotnet build "./SocialNetwork.csproj" -c $BUILD_CONFIGURATION -o /app/build
