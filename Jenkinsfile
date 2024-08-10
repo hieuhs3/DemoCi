@@ -25,18 +25,18 @@ pipeline {
                 }
             }
         }
-        stage('Push Docker Image') {
+        stage('Run Docker Image') {
             steps {
-                echo 'Pushing Docker image to Docker Hub...'
-                // Đăng nhập vào Docker Hub
-                withDockerRegistry([credentialsId: "${DOCKER_CREDENTIALS_ID}", url: "${DOCKER_REGISTRY}"]) {
-                    // Đẩy Docker image lên Docker Hub
-                    script {
-                        docker.image("${IMAGE_NAME}:${IMAGE_TAG}").push("${IMAGE_TAG}")
+                echo 'Run Docker image...'
+                // Xây dựng Docker image từ Dockerfile
+                script {
+                     docker.image("${IMAGE_NAME}:${IMAGE_TAG}").withRun('-d -p 8084:8080') {
+                       echo 'Running'
                     }
                 }
             }
         }
+        
     }
      post {
         always {
